@@ -29,7 +29,7 @@ def todo_loader(task_hash):
             if row[0] == "TASK_ID" or row[0] == "MAX_TASK_ID":
                 continue
             if row[2] == "FALSE":
-                task_hash[row[0]] = row
+                task_hash[int(row[0])] = row
 
 def get_max_task():
     """ Gets the max task number to use for further task # incrementation """
@@ -38,7 +38,7 @@ def get_max_task():
 
         for row in reader:
             if row[0] == "MAX_TASK_ID":
-                return row[1]
+                return int(row[1])
                 break
 
 
@@ -47,11 +47,9 @@ def todo_cleaner(task_hash, max_task_num):
     with open(os.path.join(__location__, "logs/todo_tasks.csv"), "w", encoding="UTF8") as f:
         writer = csv.writer(f)
 
-        header = ["TASK_ID", "TASK_NAME", "STATUS"]
-        max_num = ["MAX_TASK_ID", max_task_num]
-        #use writerows instead.
-        writer.writerow(header)
-        writer.writerow(max_num)
+        header = [["TASK_ID", "TASK_NAME", "STATUS"],
+                  ["MAX_TASK_ID", max_task_num]]
+        writer.writerows(header)
         
         for obj_key in task_hash:
             if task_hash[obj_key][2] == "FALSE":
