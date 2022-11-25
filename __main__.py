@@ -2,6 +2,7 @@ import csv
 import os
 from prettytable import PrettyTable
 from .tasks import * 
+from .modules.task_actions import *
 
 # hash for unfinished tasks.
 todo_task_hash = {}
@@ -35,11 +36,13 @@ while run_tasks:
         run_tasks = False
         # run todo_cleaner on quit
         #todo_cleaner(todo_task_hash, id_count);
+        clear()
         break
     if user_task == "f" or user_task == "F":
         # updates task status to complete
         update_task_id = input("Enter task id: \n")
         todo_task_hash[int(update_task_id)][2] = "TRUE" 
+        clear()
         continue
     
     id_count += 1
